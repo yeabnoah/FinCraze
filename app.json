@@ -8,14 +8,18 @@
       "bundler": "metro"
     },
     "plugins": [
+      ["expo-router"],
       [
-        "expo-router",
+        "expo-font",
         {
-          "origin": "https://n"
+          "fonts": ["./src/assets/fonts/Poppins-Regular.ttf"]
         }
       ]
     ],
     "name": "fincraze",
-    "slug": "fincraze"
+    "slug": "fincraze",
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

@@ -1,0 +1,35 @@
+Fincraze user flow
+
+1. Admin Dashboard:
+   - Admin can view a list of all users.
+   - Admin can add new users.
+   - Admin can view all transactions made by users.
+   - Admin can filter transactions by country, city, sender, and receiver.
+   - Admin can take additional actions, if needed./block users or, preventing them from accessing the system./
+
+
+2. Admin User Registration:
+   - Admin creates a new user account.
+   - Admin chooses the user role - sender, receiver, or admin.
+   - Admin chooses a username and password for the user.
+   - Admin selects the country and city information.
+   - Admin adds an initial balance to the user's account.
+
+
+3. Sender Flow:
+   - Sender logs into the application using their username and password.
+   - Sender selects a country and city for the transaction.
+   - Sender fills out a form with the necessary transaction details.
+   - Sender confirms and submits the transaction.
+   - The transaction amount is deducted from the sender's balance.
+   - Sender receives a confirmation of the transaction.
+
+4. Receiver Flow:
+   - Receiver logs into the application using their username and password.
+   - Receiver can view a list of pending transactions addressed to them.
+   - Receiver can accept, seize, or cancel a sender's transaction.
+   - If the transaction is accepted, the transaction amount is added to the receiver's balance.
+   - If the transaction is seized, the transaction amount is held, and further actions can be taken by the receiver.
+   - If the transaction is canceled, the transaction amount is returned to the sender's balance.
+   - Receiver can send a reply message to the sender.
+   - Receiver can view a list of their own transactions.
