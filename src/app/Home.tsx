@@ -96,7 +96,7 @@ export default function Home() {
       </View>
 
       <View
-        style={{ flex: 0.3 }}
+        style={{ flex: 0.23 }}
         className=" h-20  bg-primary flex-row items-center justify-center"
       >
         <TouchableOpacity
@@ -107,8 +107,8 @@ export default function Home() {
           style={{ flex: 1 }}
         >
           <View className="flex-col justify-center items-center">
-            <Entypo name="home" size={22} color="white" />
-            <Text className=" font-poppins text-center text-lg text-white mt-1">
+            <Entypo name="home" size={18} color="#0ef5e3" />
+            <Text className=" font-poppins text-center text-base text-secondary mt-1">
               Home
             </Text>
           </View>
@@ -122,8 +122,8 @@ export default function Home() {
           className="h-[100%] flex-row justify-center items-center"
         >
           <View className=" flex-col justify-center items-center">
-            <FontAwesome6 name="money-bill-transfer" size={20} color="white" />
-            <Text className=" font-poppins text-center text-lg text-white mt-2">
+            <FontAwesome6 name="money-bill-transfer" size={16} color="white" />
+            <Text className=" font-poppins text-center text-base text-white mt-2">
               Transaction
             </Text>
           </View>
