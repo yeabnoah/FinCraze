@@ -14,4 +14,5 @@ export default function Layout() {
     return null;
   }
   return <Stack screenOptions={{ header: () => null }} />;
+  // return <Slot />;
 }

@@ -1,10 +1,68 @@
 import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
 import { Entypo, FontAwesome6 } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import axios from "axios";
+import useCountryStore from "@/state/country";
+import useUserStore from "@/state/user";
+import Ip from "../utils/ip";
 
 export default function Home() {
+  const { country, setCountry } = useCountryStore();
+  const [countries, setCountries] = useState([]);
+  const { user, setUser } = useUserStore();
+
+  const fetchCity = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://${Ip}:3000/admin/getCountrybyid/${id}`
+      );
+      setCountry(response.data);
+      console.log(country);
+      router.navigate("/Details/Details");
+    } catch (err) {
+      console.error("Error fetching users:", err);
+    }
+  };
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(
+        `http://${Ip}:3000/admin/getsenderbyid/${user?._id}`
+      );
+      setUser(response.data);
+      console.log(user);
+      console.log(
+        "this is for the user Fetch 000000000000000000000000000000000"
+      );
+    } catch (err) {
+      console.error("Error fetching users:", err);
+      console.log(
+        "this is for the user Fetch 000000000000000000000000000000000"
+      );
+    }
+  };
+
+  const fetchCountries = async () => {
+    try {
+      const response = await axios.get(`http://${Ip}:3000/admin/getCountries`);
+      console.log(response.data);
+      setCountries(response.data);
+    } catch (err) {
+      console.error("Error fetching users:", err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchCountriesInterval = setInterval(() => {
+      fetchUser();
+    }, 2000); // Fetch every 2 seconds
+
+    // Cleanup function to clear the interval when the component unmounts or when dependencies change
+    return () => clearInterval(fetchCountriesInterval);
+  }, []); // Empty dependency array ensures that this effect runs only once when the component mounts
+
   return (
     <View className=" bg-primary flex-1 pt-14">
       <StatusBar barStyle="light-content" />
@@ -29,70 +87,40 @@ export default function Home() {
           </View>
         </View>
 
-        <TouchableOpacity
-          onPress={() => {
-            router.navigate(`Details/12`);
-          }}
-          className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
-        >
-          <View className=" flex-row items-center">
-            <Image
-              className=" h-[100%] text-white rounded-md"
-              source={require("../assets/images/Flag_of_Ethiopia.png")}
-              style={{ height: 30, width: 45 }}
-            />
-            <Text className=" text-lg text-white mx-2 font-poppins ">
-              Ethiopia
-            </Text>
-          </View>
+        {user.countries.map((country) => {
+          const x = `https://www.worldometers.info/img/flags/${country.country.name
+            .charAt(0)
+            .toLowerCase()}${country.country.name
+            .charAt(1)
+            .toLowerCase()}-flag.gif`;
+          console.log(x);
+          return (
+            <TouchableOpacity
+              key={country._id}
+              onPress={() => {
+                fetchCity(country.country._id); // Pass country._id to fetchCity function
+              }}
+              className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
+            >
+              <View className=" flex-row items-center">
+                <Image
+                  className=" h-[100%] text-white rounded-md"
+                  source={{
+                    uri: x,
+                  }}
+                  style={{ height: 33, width: 45 }}
+                />
+                <Text className=" text-lg text-white mx-2 font-poppins ">
+                  {country.country.name}
+                </Text>
+              </View>
 
-          <Text className=" text-white font-poppins text-lg">1000 ETB</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third">
-          <View className=" flex-row items-center">
-            <Image
-              className=" h-[100%] text-white rounded-md"
-              source={require("../assets/images/istockphoto-880562092-612x612.jpg")}
-              style={{ height: 30, width: 45 }}
-            />
-            <Text className=" text-lg text-white mx-2 font-poppins ">
-              England
-            </Text>
-          </View>
-
-          <Text className=" text-white font-poppins text-lg">1000 SDG</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third">
-          <View className=" flex-row items-center">
-            <Image
-              className=" h-[100%] text-white rounded-md "
-              source={require("../assets/images/Canada.png")}
-              style={{ height: 30, width: 45 }}
-            />
-            <Text className=" text-lg text-white mx-2 font-poppins ">
-              Canada
-            </Text>
-          </View>
-
-          <Text className=" text-white font-poppins text-lg">1000 ETB</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third">
-          <View className=" flex-row items-center">
-            <Image
-              className=" h-[100%] text-white rounded-md "
-              source={require("../assets/images/Flag_of_Kenya.svg.png")}
-              style={{ height: 30, width: 45 }}
-            />
-            <Text className=" text-lg text-white mx-2 font-poppins ">
-              Kenya
-            </Text>
-          </View>
-
-          <Text className=" text-white font-poppins text-lg">1000 ETB</Text>
-        </TouchableOpacity>
+              <Text className=" text-white font-poppins text-lg">
+                {country.balance}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
 
       <View

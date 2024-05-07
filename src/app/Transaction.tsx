@@ -7,11 +7,34 @@ import {
   ScrollView,
 } from "react-native";
 import { Entypo, FontAwesome6 } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import axios from "axios";
+import Ip from "../utils/ip";
+import useUserStore from "@/state/user";
 
 export default function Transaction() {
+  const [transactions, setTransactions] = useState([]);
+  const { user, setUser } = useUserStore();
+
+  const fetchTransaction = async () => {
+    const response = await axios.get(
+      `http://${Ip}:3000/sender/gettransactions/${user?._id}`
+    );
+
+    setTransactions(response.data);
+    console.log(response.data);
+  };
+
+  useEffect(() => {
+    const fetchCountriesInterval = setInterval(() => {
+      fetchTransaction();
+    }, 2000); // Fetch every 2 seconds
+
+    // Cleanup function to clear the interval when the component unmounts or when dependencies change
+    return () => clearInterval(fetchCountriesInterval);
+  }, []);
   return (
     <View className=" bg-primary flex-1 pt-14">
       <StatusBar barStyle="light-content" />
@@ -29,37 +52,64 @@ export default function Transaction() {
           </Text>
         </View>
 
-        <View className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third">
-          <View className=" flex-row">
-            <Image
-              className=" h-[100%] text-white rounded-md"
-              source={require("../assets/images/Flag_of_Ethiopia.png")}
-              style={{ height: 30, width: 45 }}
-            />
-            <View>
-              <Text className=" text-lg text-white mx-2 font-poppins ">
-                Ethiopia
-              </Text>
-              <Text className=" text-lg text-white mx-2 font-poppins ">
-                Alazar Tessema
-              </Text>
-              <Text className=" text-lg text-white mx-2 font-poppins ">
-                094575...
-              </Text>
-              <Text className=" text-lg text-white mx-2 font-poppins ">
-                3600 Birr
-              </Text>
+        {transactions.map((transaction) => {
+          const x = `https://www.worldometers.info/img/flags/${transaction.country
+            .charAt(0)
+            .toLowerCase()}${transaction.country
+            .charAt(1)
+            .toLowerCase()}-flag.gif`;
+          console.log(x);
+          return (
+            <View
+              key={transaction._id}
+              className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
+            >
+              <View className=" flex-row">
+                <Image
+                  className=" h-[100%] text-white rounded-md"
+                  source={{ uri: x }}
+                  style={{ height: 30, width: 45 }}
+                />
+                <View>
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    {transaction.country}
+                  </Text>
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    {transaction.from}
+                  </Text>
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    {transaction.phoneNumber}
+                  </Text>
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    {transaction.amount}
+                  </Text>
 
-              <TouchableOpacity className=" w-44">
-                <Text className=" text-lg text-white mx-2 font-poppins bg-green-500 p-1 text-center rounded-md ">
-                  Accepted
-                </Text>
-              </TouchableOpacity>
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    {transaction.sender_message}
+                  </Text>
+
+                  <TouchableOpacity className="w-44">
+                    <Text
+                      className={`text-lg text-white mx-2 font-poppins p-1 text-center rounded-md ${
+                        transaction.status === "accepted"
+                          ? "bg-green-500" // green for approved
+                          : transaction.status === "seized"
+                          ? "bg-yellow-500" // yellow for seized
+                          : transaction.status === "canceled"
+                          ? "bg-red-500" // red for cancelled
+                          : "bg-blue-500" // default to blue if status is not recognized
+                      }`}
+                    >
+                      {transaction.status}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          );
+        })}
 
-        <View className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third">
+        {/* <View className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third">
           <View className=" flex-row">
             <Image
               className=" h-[100%] text-white rounded-md"
@@ -122,7 +172,7 @@ export default function Transaction() {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
 
       <View

@@ -8,11 +8,15 @@
       "bundler": "metro"
     },
     "plugins": [
-      ["expo-router"],
+      [
+        "expo-router"
+      ],
       [
         "expo-font",
         {
-          "fonts": ["./src/assets/fonts/Poppins-Regular.ttf"]
+          "fonts": [
+            "./src/assets/fonts/Poppins-Regular.ttf"
+          ]
         }
       ]
     ],
@@ -20,6 +24,17 @@
     "slug": "fincraze",
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "c95f39ea-76fb-453d-ae2c-6e1fb7b5b4cb"
+      }
+    },
+    "android": {
+      "package": "com.technerd345.fincraze"
     }
   }
 }
