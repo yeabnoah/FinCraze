@@ -44,7 +44,7 @@ export default function Details() {
 
   const handleSubmit = () => {
     axios
-      .post(`http://${Ip}:3000/sender/sendMoney/${user._id}`, formData)
+      .post(`https://fincraze.net/sender/sendMoney/${user._id}`, formData)
       .then((response) => {
         console.log("Response:", response.data);
         router.navigate("/Home");

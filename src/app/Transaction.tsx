@@ -18,13 +18,30 @@ export default function Transaction() {
   const [transactions, setTransactions] = useState([]);
   const { user, setUser } = useUserStore();
 
+  const deleteForMe = async (id) => {
+    try {
+      const response = await axios.patch(
+        `https://fincraze.net/sender/deleteForMe/${id}`,
+        {
+          senderStatus: false,
+        }
+      );
+      console.log(response.data);
+      fetchTransaction();
+    } catch (err) {
+      console.error(err);
+    }
+    // console.log(id);
+    console.log("clicked");
+  };
+
   const fetchTransaction = async () => {
     const response = await axios.get(
-      `http://${Ip}:3000/sender/gettransactions/${user?._id}`
+      `https://fincraze.net/sender/gettransactions/${user?._id}`
     );
 
     setTransactions(response.data);
-    console.log(response.data);
+    // console.log(response.data);
   };
 
   useEffect(() => {
@@ -58,34 +75,37 @@ export default function Transaction() {
             .toLowerCase()}${transaction.country
             .charAt(1)
             .toLowerCase()}-flag.gif`;
-          console.log(x);
+          // console.log(x);
           return (
             <View
               key={transaction._id}
-              className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
+              className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third w-max"
             >
               <View className=" flex-row">
                 <Image
-                  className=" h-[100%] text-white rounded-md"
+                  className=" h-[100%] w-[100%] text-white rounded-md"
                   source={{ uri: x }}
                   style={{ height: 30, width: 45 }}
                 />
                 <View>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
-                    {transaction.country}
+                    From : {transaction.country}
                   </Text>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
-                    {transaction.from}
+                    To : {transaction.from}
                   </Text>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
-                    {transaction.phoneNumber}
+                    PhoneNo : {transaction.phoneNumber}
                   </Text>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
-                    {transaction.amount}
+                    Amount : {transaction.amount}
                   </Text>
 
-                  <Text className=" text-lg text-white mx-2 font-poppins ">
-                    {transaction.sender_message}
+                  <Text className=" text-base text-white mx-2 font-poppins text-wrap">
+                    Sender Message : {transaction.sender_message}
+                  </Text>
+                  <Text className=" text-base text-white mx-2 font-poppins text-wrap">
+                    Receiver Message : {transaction.receiver_message}
                   </Text>
 
                   <TouchableOpacity className="w-44">
@@ -103,6 +123,19 @@ export default function Transaction() {
                       {transaction.status}
                     </Text>
                   </TouchableOpacity>
+
+                  <View className=" flex-row justify-start mt-3">
+                    <TouchableOpacity
+                      onPress={() => {
+                        deleteForMe(transaction._id);
+                      }}
+                      className=" bg-red-400 py-1 rounded-lg w-max"
+                    >
+                      <Text className=" text-lg text-white mx-2 font-poppins ">
+                        Delete
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>

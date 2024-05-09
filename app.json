@@ -7,20 +7,22 @@
       "output": "static",
       "bundler": "metro"
     },
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
     "plugins": [
-      [
-        "expo-router"
-      ],
+      ["expo-router"],
       [
         "expo-font",
         {
-          "fonts": [
-            "./src/assets/fonts/Poppins-Regular.ttf"
-          ]
+          "fonts": ["./src/assets/fonts/"]
         }
       ]
     ],
-    "name": "fincraze",
+    "name": "fincraze-SENDER",
     "slug": "fincraze",
     "experiments": {
       "typedRoutes": true

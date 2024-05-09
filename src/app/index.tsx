@@ -29,15 +29,14 @@ export default function Page() {
 
   const login = async () => {
     try {
-      const response = await axios.post(`http://${Ip}:3000/sender/login`, {
-        // Add 'http://' protocol
+      const response = await axios.post(`https://fincraze.net/sender/login`, {
         username: username,
         password: password,
       });
       // Handle successful login response here, e.g., navigate to home screen
       if (response.status === 200) {
         setUser(response.data.user);
-        console.log(user);
+        // console.log(user);
         router.navigate("/Home");
       } else if (response.status === 404) {
       } else {
@@ -46,7 +45,7 @@ export default function Page() {
     } catch (error) {
       // Handle login error here
       console.error("Login error:", error);
-      setInvalid(true);
+      // setInvalid(true);
     }
     // router.navigate("/Home");
   };

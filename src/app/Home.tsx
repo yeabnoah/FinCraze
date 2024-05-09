@@ -16,10 +16,10 @@ export default function Home() {
   const fetchCity = async (id) => {
     try {
       const response = await axios.get(
-        `http://${Ip}:3000/admin/getCountrybyid/${id}`
+        `https://fincraze.net/admin/getCountrybyid/${id}`
       );
       setCountry(response.data);
-      console.log(country);
+      // console.log(country);
       router.navigate("/Details/Details");
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -29,13 +29,13 @@ export default function Home() {
   const fetchUser = async () => {
     try {
       const response = await axios.get(
-        `http://${Ip}:3000/admin/getsenderbyid/${user?._id}`
+        `https://fincraze.net/admin/getsenderbyid/${user?._id}`
       );
       setUser(response.data);
-      console.log(user);
-      console.log(
-        "this is for the user Fetch 000000000000000000000000000000000"
-      );
+      // console.log(user);
+      // console.log(
+      //   "this is for the user Fetch 000000000000000000000000000000000"
+      // );
     } catch (err) {
       console.error("Error fetching users:", err);
       console.log(
@@ -46,8 +46,10 @@ export default function Home() {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get(`http://${Ip}:3000/admin/getCountries`);
-      console.log(response.data);
+      const response = await axios.get(
+        `https://fincraze.net/admin/getCountries`
+      );
+      // console.log(response.data);
       setCountries(response.data);
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -93,7 +95,7 @@ export default function Home() {
             .toLowerCase()}${country.country.name
             .charAt(1)
             .toLowerCase()}-flag.gif`;
-          console.log(x);
+          // console.log(x);
           return (
             <TouchableOpacity
               key={country._id}
