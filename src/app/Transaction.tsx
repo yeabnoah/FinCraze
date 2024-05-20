@@ -89,10 +89,13 @@ export default function Transaction() {
                 />
                 <View>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
-                    From : {transaction.country}
+                    Country : {transaction.country}
                   </Text>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
-                    To : {transaction.from}
+                    From : {transaction.from}
+                  </Text>
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    to : {transaction.to}
                   </Text>
                   <Text className=" text-lg text-white mx-2 font-poppins ">
                     PhoneNo : {transaction.phoneNumber}
