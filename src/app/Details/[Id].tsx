@@ -22,7 +22,7 @@ export default function Details() {
   console.log(x);
   // const {} =
   return (
-    <ScrollView className="bg-primary flex-1 pt-14">
+    <View className="bg-primary flex-1 pt-14">
       <StatusBar barStyle="light-content" />
       <View style={{ flex: 3 }}>
         <TouchableOpacity
@@ -136,6 +136,6 @@ export default function Details() {
           </View>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 }
