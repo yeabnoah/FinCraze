@@ -1,4 +1,11 @@
-import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Entypo, FontAwesome6 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,7 +13,7 @@ import { router } from "expo-router";
 import axios from "axios";
 import useCountryStore from "@/state/country";
 import useUserStore from "@/state/user";
-import Ip from "../utils/ip";
+// import Ip from "../utils/";
 
 export default function Home() {
   const { country, setCountry } = useCountryStore();
@@ -89,40 +96,42 @@ export default function Home() {
           </View>
         </View>
 
-        {user.countries.map((country) => {
-          const x = `https://www.worldometers.info/img/flags/${country.country.name
-            .charAt(0)
-            .toLowerCase()}${country.country.name
-            .charAt(1)
-            .toLowerCase()}-flag.gif`;
-          // console.log(x);
-          return (
-            <TouchableOpacity
-              key={country._id}
-              onPress={() => {
-                fetchCity(country.country._id); // Pass country._id to fetchCity function
-              }}
-              className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
-            >
-              <View className=" flex-row items-center">
-                <Image
-                  className=" h-[100%] text-white rounded-md"
-                  source={{
-                    uri: x,
-                  }}
-                  style={{ height: 33, width: 45 }}
-                />
-                <Text className=" text-lg text-white mx-2 font-poppins ">
-                  {country.country.name}
-                </Text>
-              </View>
+        <ScrollView className=" mb-2">
+          {user.countries.map((country) => {
+            const x = `https://www.worldometers.info/img/flags/${country.country.name
+              .charAt(0)
+              .toLowerCase()}${country.country.name
+              .charAt(1)
+              .toLowerCase()}-flag.gif`;
+            // console.log(x);
+            return (
+              <TouchableOpacity
+                key={country._id}
+                onPress={() => {
+                  fetchCity(country.country._id); // Pass country._id to fetchCity function
+                }}
+                className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
+              >
+                <View className=" flex-row items-center">
+                  <Image
+                    className=" h-[100%] text-white rounded-md"
+                    source={{
+                      uri: x,
+                    }}
+                    style={{ height: 33, width: 45 }}
+                  />
+                  <Text className=" text-lg text-white mx-2 font-poppins ">
+                    {country.country.name}
+                  </Text>
+                </View>
 
-              <Text className=" text-white font-poppins text-lg">
-                {country.balance}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+                <Text className=" text-white font-poppins text-lg">
+                  {country.balance}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
       </View>
 
       <View

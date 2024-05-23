@@ -1,4 +1,11 @@
-import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -49,24 +56,25 @@ export default function Details() {
           </View>
         </View>
 
-        {country.cities.map((city) => (
-          <TouchableOpacity
-            key={city._id}
-            onPress={() => {
-              router.navigate("Details/form");
-              setCity(city._id);
-              console.log(city.name);
-            }}
-            className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ fontSize: 16, color: "white", marginLeft: 5 }}>
-                {city.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-
+        <ScrollView className=" mb-2">
+          {country.cities.map((city) => (
+            <TouchableOpacity
+              key={city._id}
+              onPress={() => {
+                router.navigate("Details/form");
+                setCity(city._id);
+                console.log(city.name);
+              }}
+              className=" h-max py-3 px-3 mx-5 mt-5 rounded-md flex flex-row justify-between items-center bg-third"
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={{ fontSize: 16, color: "white", marginLeft: 5 }}>
+                  {city.name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
         {/* <TouchableOpacity
           onPress={() => {
             router.navigate("Details/form");
